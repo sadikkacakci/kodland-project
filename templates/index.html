@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Questions</title>
+    <style>
+        /* Skor div'ini sağ üst köşeye yerleştirmek için stil ayarları */
+        .score {
+            position: fixed; /* Sayfa kaydırıldığında bile aynı yerde kalır */
+            top: 10px; /* Üstten 10 piksel boşluk bırakır */
+            right: 10px; /* Sağdan 10 piksel boşluk bırakır */
+            padding: 10px; /* İçerik etrafında biraz boşluk bırakır */
+            background-color: #f8f9fa; /* Arka plan rengi */
+            border: 1px solid #ddd; /* Kenarlık */
+            border-radius: 5px; /* Kenarları yuvarlak yapar */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hafif bir gölge efekti ekler */
+            display: flex; /* Öğeleri yan yana yerleştirmek için flex kullanıyoruz */
+            gap: 20px; /* Öğeler arasında boşluk bırakıyoruz */
+            z-index: 1000; /* Diğer öğelerin üstünde görünmesini sağlar */
+        }
+
+        html, body {
+            height: 100%; /* Sayfanın yüksekliğini %100 yapar */
+            margin: 0; /* Varsayılan margin'i kaldırır */
+            padding: 0; /* Varsayılan padding'i kaldırır */
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column; /* İçeriği dikey olarak düzenler */
+        }
+        
+        .footer {
+            margin-top: auto; /* Footer'ı sayfanın en altına yerleştirir */
+            padding: 10px; /* İçerik etrafında biraz boşluk bırakır */
+            background-color: #f8f9fa; /* Arka plan rengi */
+            border-top: 1px solid #ddd; /* Üst kenarlık */
+            font-size: 20px; /* Yazı boyutu */
+            color: #555; /* Yazı rengi */
+            text-align: center; /* Metni ortalar */
+        }
+        button[type="submit"] {
+            background-color: #4CAF50; /* Butonun arka plan rengi */
+            color: white; /* Butonun yazı rengi */
+            padding: 15px 30px; /* Butonun iç boşlukları */
+            font-size: 18px; /* Yazı boyutu */
+            border: none; /* Buton kenarlığını kaldırır */
+            border-radius: 5px; /* Kenarları yuvarlar */
+            cursor: pointer; /* Üzerine gelindiğinde fare imlecinin değişmesi */
+            display: inline-block; /* Butonu blok içi eleman olarak ayarlar */
+            text-align: center; /* Metni ortalar */
+            box-sizing: border-box; /* Padding ve border'ı genişliğe dahil eder */
+            width: 200px; /* Butonun genişliği */
+        }
+    </style>
+</head>
+<body>
+    <div class="score">
+        {% if best_score is not none %}
+            <p>Current score: %{{ current_score }}</p>
+            <p>Best score: %{{ best_score }}</p>
+        {% endif %}
+    </div>
+    <h1>Quiz Questions</h1>
+    <form action="/submit" method="post" autocomplete="off">
+        {% for question in questions %}
+            <fieldset>
+                <legend>{{ loop.index }}. {{ question.text }}</legend> <!-- Soru numarasını ekliyoruz -->
+                <div>
+                    <input type="radio" id="q{{ question.id }}_option1" name="question_{{ question.id }}" value="option1" required>
+                    <label for="q{{ question.id }}_option1">{{ question.option1 }}</label>
+                </div>
+                <div>
+                    <input type="radio" id="q{{ question.id }}_option2" name="question_{{ question.id }}" value="option2">
+                    <label for="q{{ question.id }}_option2">{{ question.option2 }}</label>
+                </div>
+                <div>
+                    <input type="radio" id="q{{ question.id }}_option3" name="question_{{ question.id }}" value="option3">
+                    <label for="q{{ question.id }}_option3">{{ question.option3 }}</label>
+                </div>
+                <div>
+                    <input type="radio" id="q{{ question.id }}_option4" name="question_{{ question.id }}" value="option4">
+                    <label for="q{{ question.id }}_option4">{{ question.option4 }}</label>
+                </div>
+            </fieldset>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+    <!-- Sayfanın en altına metni yerleştiriyoruz -->
+    <div class="footer">
+        <p>Bu sayfa Sadık Kaçakçı tarafından tasarlanmıştır.</p>
+    </div>
+</body>
+</html>
